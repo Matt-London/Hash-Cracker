@@ -25,7 +25,7 @@ def usage():
 	print("Examples:")
 	print("hashCracker -a md5 -w $HOME/legalStuff/wordlists/medium -s 6131647dd67a67db0022ebec8dea160d")
 	print("hashCracker -a sha256 -w $HOME/legalStuff/wordlists/medium -f test\n")
-	
+
 def error(errCode):
 	usage()
 	print("===================\n")
@@ -206,6 +206,7 @@ if sOrF == 1:
 			print("\n Algorithm: {}".format(alg))
 			print("\n\n=======================================")
 			results.write("Key #{}\n\nKeyboard Interrupt\n\nAttempt #{}\nHash:\n{}\n\n=========================\n\n".format(keyNum, counter, theHash))
+			results.close()
 			exit(12)
 		elif trip == 0:
 			exit(0)
@@ -213,10 +214,10 @@ if sOrF == 1:
 			print("=======================================\n\n")
 			print("     Not in wordlist\n")
 			print("          Hash:")
-			print(Hash)
+			print(theHash)
 			print("\n Algorithm: {}".format(alg))
 			print("\n\n=======================================")
-			results.write("Key #{}\nAttempt #{}\nKey:\n\n{}\n\nHash:\n{}\n\n=========================\n\n".format(keyNum, counter, xNew, theHash))
+			results.write("Key #{}\nAttempt #{}\nHash:\n{}\n\n=========================\n\n".format(keyNum, counter, theHash))
 			wList.seek(0)
 elif sOrF == 0:
 	with open(flagParser("-w")) as wList:
@@ -237,6 +238,8 @@ elif sOrF == 0:
 					print("	Algorithm: {}".format(alg))
 					print(str(hexx) + "\n\n")
 					print("=======================================")
+					results.write("Attempt #{}\nKey:\n{}\n\nHash:\n{}\n\n=========================\n\n".format(counter, x, str(hexx)))
+					results.close()
 					wList.close()
 					exit(0)
 				else:
@@ -256,6 +259,8 @@ elif sOrF == 0:
 				print(Hash)
 				print("\n Algorithm: {}".format(alg))
 				print("\n\n=======================================")
+				results.write("Keyboard Interrupt\n\nAttempt #{}\n\nHash:\n{}\n\n=========================\n\n".format(counter, Hash))
+				results.close()
 				exit(12)
 			elif trip == 0:
 				exit(0)
@@ -266,6 +271,7 @@ elif sOrF == 0:
 				print(Hash)
 				print("\n Algorithm: {}".format(alg))
 				print("\n\n=======================================")
+
 else:
 	print("No clue why or how you got to this\nGood Luck!!")
 	exit(1235)
